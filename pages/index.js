@@ -1,5 +1,4 @@
 import Head from "next/head";
-import LinkForm from "../components/LinkForm";
 import {
   Flex,
   Heading,
