@@ -6,7 +6,13 @@ export default async function createLink(req, res) {
   const { link } = req.body;
   const isUrl = (string) => {
     try {
-      return Boolean(new URL(string));
+      return Boolean(
+        new URL(
+          new RegExp("^(http|https)://", "i").test(string)
+            ? string
+            : `https://${string}`
+        )
+      );
     } catch (e) {
       return false;
     }
