@@ -5,6 +5,7 @@ import {
   Input,
   Button,
   Checkbox,
+  Text,
   useColorMode,
   useColorModeValue,
   useToast,
@@ -65,6 +66,13 @@ export default function Home() {
 
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
+      <Head>
+        <title>linki</title>
+        <meta name="title" content="linki" />
+        <meta name="description" content="linki: a place for your links" />
+        <meta name="og:image" content="/linki.png" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Flex
         direction="column"
         background={useColorModeValue("gray.400", "gray.700")}
@@ -75,7 +83,7 @@ export default function Home() {
           {useColorModeValue(<MoonIcon />, <SunIcon />)}
         </Button>
         <Heading mb={6} color="blue.500">
-          Add a link!
+          linki
         </Heading>
         <Input
           ref={linkInputRef}
@@ -102,7 +110,7 @@ export default function Home() {
           mt={2}
           ml={20}
         >
-          zero width links
+          invisible link
         </Checkbox>
         <Button colorScheme="blue" onClick={onCopy} mb={10} ml={64}>
           {hasCopied ? <CheckCircleIcon /> : <CopyIcon />}
@@ -110,6 +118,9 @@ export default function Home() {
         <Button onClick={handleForm} colorScheme="teal" mr={20} mt={-20}>
           Shorten
         </Button>
+        <Text as="u" as="a" ml={10} mt={6} href="https://github.com/rpxs/linki">
+          a project by fish and friends
+        </Text>
       </Flex>
     </Flex>
   );
