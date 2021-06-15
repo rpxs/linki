@@ -26,7 +26,9 @@ export default async function createLink(req, res) {
     const id = uuidv4();
     const newLink = {
       id,
-      link: link,
+      link: new RegExp("^(http|https)://", "i").test(link)
+          ? link
+          : `https://${link}`,
       views: 1,
       created_at: Date.now(),
     };
