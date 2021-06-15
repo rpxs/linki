@@ -1,9 +1,10 @@
 import { v4 as uuidv4 } from "uuid";
 import random from "../../lib/random";
 import redis from "../../lib/redis";
+import zwsGenerator from "../../lib/zws";
 
 export default async function createLink(req, res) {
-  const { link } = req.body;
+  const { link, zws } = req.body;
   const isUrl = (string) => {
     try {
       return Boolean(
@@ -27,12 +28,13 @@ export default async function createLink(req, res) {
     const newLink = {
       id,
       link: new RegExp("^(http|https)://", "i").test(link)
-          ? link
-          : `https://${link}`,
+        ? link
+        : `https://${link}`,
       views: 1,
       created_at: Date.now(),
     };
-    const url = await random(6);
+
+    const url = zws ? zwsGenerator(12) : random(6);
     console.log(url);
 
     await redis.hset("links", url, JSON.stringify(newLink));
@@ -40,7 +42,6 @@ export default async function createLink(req, res) {
       short_link: url,
     });
   } else {
-    console.log("threw this");
     res.status(400).json({
       error: "your link is too massive",
     });

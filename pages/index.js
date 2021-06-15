@@ -4,24 +4,27 @@ import {
   Heading,
   Input,
   Button,
+  Checkbox,
   useColorMode,
   useColorModeValue,
   useToast,
   useClipboard,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, CopyIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const toast = useToast();
   const linkInputRef = useRef(null);
   const shortRef = useRef(0);
   const { hasCopied, onCopy } = useClipboard(shortRef.current.value);
+  const [zwsOn, setZws] = useState(false);
   const handleForm = async () => {
     if (linkInputRef.current.value == "") return;
     const res = await fetch("/api/create", {
       body: JSON.stringify({
         link: linkInputRef.current.value,
+        zws: zwsOn,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -50,13 +53,16 @@ export default function Home() {
       isClosable: true,
     });
   };
-  
+
   useEffect(() => {
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+    ) {
       toggleColorMode();
     }
   }, []);
-  
+
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <Flex
@@ -87,6 +93,17 @@ export default function Home() {
           placeholder="shortened link"
           isReadOnly
         />
+        <Checkbox
+          onChange={(event) => {
+            setZws(event.target.checked);
+          }}
+          colorScheme="teal"
+          mb={4}
+          mt={2}
+          ml={20}
+        >
+          zero width links
+        </Checkbox>
         <Button colorScheme="blue" onClick={onCopy} mb={10} ml={64}>
           {hasCopied ? <CheckCircleIcon /> : <CopyIcon />}
         </Button>
