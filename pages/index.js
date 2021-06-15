@@ -10,7 +10,7 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon, CopyIcon, CheckCircleIcon } from "@chakra-ui/icons";
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const toast = useToast();
@@ -50,6 +50,13 @@ export default function Home() {
       isClosable: true,
     });
   };
+  
+  useEffect(() => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      toggleColorMode();
+    }
+  }, []);
+  
   return (
     <Flex height="100vh" alignItems="center" justifyContent="center">
       <Flex
