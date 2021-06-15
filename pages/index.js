@@ -13,11 +13,11 @@ import {
 import { MoonIcon, SunIcon, CopyIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import { useRef, useEffect, useState } from "react";
 export default function Home() {
+  const [linkValue, setLinkValue] = useState("");
   const { toggleColorMode } = useColorMode();
   const toast = useToast();
   const linkInputRef = useRef(null);
-  const shortRef = useRef(0);
-  const { hasCopied, onCopy } = useClipboard(shortRef.current.value);
+  const { hasCopied, onCopy } = useClipboard(linkValue);
   const [zwsOn, setZws] = useState(false);
   const handleForm = async () => {
     if (linkInputRef.current.value == "") return;
@@ -43,7 +43,7 @@ export default function Home() {
       });
       return;
     } else if (short_link)
-      shortRef.current.value = `${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`;
+      setLinkValue(`${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`);
     linkInputRef.current.value = "";
     toast({
       title: "Link created.",
@@ -86,7 +86,7 @@ export default function Home() {
           isRequired
         />
         <Input
-          ref={shortRef}
+          value={linkValue}
           variant="filled"
           mb={3}
           type="url"
