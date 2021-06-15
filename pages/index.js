@@ -40,11 +40,11 @@ export default function Home() {
       });
       return;
     } else if (short_link)
-      shortRef.current.value = `${process.env.PROJECT_URL}/${short_link}`;
+      shortRef.current.value = `${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`;
     linkInputRef.current.value = "";
     toast({
       title: "Link created.",
-      description: `Your link is ready at ${process.env.PROJECT_URL}/${short_link}`,
+      description: `Your link is ready at ${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`,
       status: "success",
       duration: 5000,
       isClosable: true,
