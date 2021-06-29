@@ -14,6 +14,7 @@ import {
 import { MoonIcon, SunIcon, CopyIcon, CheckCircleIcon } from "@chakra-ui/icons";
 import { useRef, useEffect, useState } from "react";
 export default function Home() {
+  if (process.env.NEXT_PUBLIC_PROJECT_URL == ""){const base = document.URL} else {const base = process.env.NEXT_PUBLIC_PROJECT_URL} //If ENV var is not set, default to host URL
   const [linkValue, setLinkValue] = useState("");
   const { toggleColorMode } = useColorMode();
   const toast = useToast();
@@ -44,11 +45,11 @@ export default function Home() {
       });
       return;
     } else if (short_link)
-      setLinkValue(`${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`);
+      setLinkValue(`${base}/${short_link}`);
     linkInputRef.current.value = "";
     toast({
       title: "Link created.",
-      description: `Your link is ready at ${process.env.NEXT_PUBLIC_PROJECT_URL}/${short_link}`,
+      description: `Your link is ready at ${base}/${short_link}`,
       status: "success",
       duration: 5000,
       isClosable: true,
